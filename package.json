@@ -1,0 +1,10 @@
+{
+  "name": "movies",
+  "version": "0.0.0",
+  "description": "data related to movies ",
+  "main": "index.js",
+  "scripts": {
+  "dev":"tsx watch src/index.ts"  },
+  "author": "ADITYA",
+  "license": "MIT"
+}
