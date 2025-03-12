@@ -1,59 +1,21 @@
-type Movie = {
-    id: string;
-    title: string;
-    director: string;
-    releaseYear: number;
-    genre: string;
-    ratings: number[];
-};
+import { MovieDatabase } from './moviedatabase';
 
-class MoviesManagement {
-    private movies: Movie[] = [];
+const movieDB = new MovieDatabase();
 
-    addMovie(id: string, title: string, director: string, releaseYear: number, genre: string): void {
-        const newMovie: Movie = { id, title, director, releaseYear, genre, ratings: [] };
-        this.movies.push(newMovie);
-    }
 
-    rateMovie(id: string, rating: number): void {
-        const movie = this.movies.find(movie => movie.id === id);
-        if (movie && rating >= 1 && rating <= 5) {
-            movie.ratings.push(rating);
-        }
-    }
+movieDB.addMovie('1', 'fight club', 'David fincher', 2010, 'psycological thriller');
+movieDB.addMovie('2', 'eega', 'rajmouli', 2008, 'Action');
+movieDB.addMovie('3', 'fracture', 'Edward wilson', 2014, 'thriller');
 
-    getAverageRating(id: string): number | undefined {
-        const movie = this.movies.find(movie => movie.id === id);
-        if (movie && movie.ratings.length > 0) {
-            const total = movie.ratings.reduce((acc, rating) => acc + rating, 0);
-            return total / movie.ratings.length;
-        }
-        return undefined;
-    }
+movieDB.rateMovie('1', 5);
+movieDB.rateMovie('1', 4);
+movieDB.rateMovie('2', 5);
+movieDB.rateMovie('3', 4);
 
-    getTopRatedMovies(): Movie[] {
-        return this.movies
-            .filter(movie => movie.ratings.length > 0)
-            .sort((a, b) => (this.getAverageRating(b.id) || 0) - (this.getAverageRating(a.id) || 0));
-    }
-
-    getMoviesByGenre(genre: string): Movie[] {
-        return this.movies.filter(movie => movie.genre.toLowerCase() === genre.toLowerCase());
-    }
-
-    getMoviesByDirector(director: string): Movie[] {
-        return this.movies.filter(movie => movie.director.toLowerCase() === director.toLowerCase());
-    }
-
-    searchMoviesBasedOnKeyword(keyword: string): Movie[] {
-        return this.movies.filter(movie => movie.title.toLowerCase().includes(keyword.toLowerCase()));
-    }
-
-    getMovie(id: string): Movie | undefined {
-        return this.movies.find(movie => movie.id === id);
-    }
-
-    removeMovie(id: string): void {
-        this.movies = this.movies.filter(movie => movie.id !== id);
-    }
-}
+console.log(movieDB.getAverageRating('1'));
+console.log(movieDB.getTopRatedMovies()); 
+console.log(movieDB.getMoviesByGenre('psycological thriller')); 
+console.log(movieDB.getMoviesByDirector('rajmouli')); 
+console.log(movieDB.searchMoviesBasedOnKeyword('fracture')); 
+console.log(movieDB.getMovie('1')); 
+movieDB.removeMovie('1'); 
